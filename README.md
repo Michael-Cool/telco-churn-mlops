@@ -36,3 +36,8 @@ und bilden die Grundlage für die spätere Modellierung, API-Entwicklung und das
 - **Wissenschaftlicher Mehrwert:** Kombination von Modellgüte-Analyse und MLOps-Architektur für den Telco-Sektor.
 
 ---
+
+## 📚 Quellen
+- IBM (2019). *Telco Customer Churn Dataset*.  
+- Boozary et al. (2025), Chikkala et al. (2025), Woźniak et al. (2025).  
+- Studer et al. (2021). *CRISP-ML(Q)*.
