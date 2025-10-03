@@ -13,5 +13,5 @@ venv/
 # OS
 .DS_Store
 
-# Optional: Rohdaten (wenn du sie NICHT ins Repo pushen willst)
+# Rohdaten
 data/*.csv
