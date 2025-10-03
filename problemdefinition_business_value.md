@@ -5,7 +5,7 @@
 Kundenabwanderung (Churn) stellt für Telekommunikationsanbieter ein wesentliches Geschäftsproblem dar.  
 Die Gewinnung neuer Kunden ist mit erheblichen Marketing- und Akquisitionskosten verbunden, während der Verlust bestehender Kunden direkte Umsatz- und Ertragsausfälle verursacht.  
 
-Die **Bindung bestehender Kunden** ist deutlich kosteneffizienter ist als die Neukundengewinnung.  
+Die **Bindung bestehender Kunden** ist deutlich kosteneffizienter als die Neukundengewinnung.  
 Reichheld und Sasser (1990) belegen, dass bereits eine Reduktion der Abwanderungsrate um 5 % die Gewinne eines Unternehmens um bis zu 100 % steigern kann, da Bestandskunden im Zeitverlauf profitabler werden. Min et al. zeigen zudem, dass Akquisitionskosten im Telekommunikationssektor im Durchschnitt etwa dreimal so hoch sind wie Retentionskosten und im Wettbewerbsumfeld sogar das Vierfache erreichen können (Min, Zhang, Kim & Srivastava, 2016).
 Eine frühzeitige Identifikation von abwanderungsgefährdeten Kunden bedeutet, dass gezielte Retention-Maßnahmen eingeleitet werden können, bevor der Kunde endgültig kündigt.  
 
