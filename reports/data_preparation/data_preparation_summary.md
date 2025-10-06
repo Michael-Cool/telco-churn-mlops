@@ -1,6 +1,6 @@
 # Data Preparation Summary
 
-**Datum/Zeit:** 2025-10-04 11:56:41  
+**Datum/Zeit:** 2025-10-06 08:29:05  
 **random_state:** 42  
 
 ---
