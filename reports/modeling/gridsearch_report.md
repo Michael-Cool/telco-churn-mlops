@@ -1,6 +1,6 @@
 # GridSearchCV Report
 
-**Datum/Zeit:** 2025-10-06 10:02:02  
+**Datum/Zeit:** 2025-10-06 10:34:28  
 **random_state:** 42  
 
 ---
@@ -11,8 +11,8 @@ with ROC AUC as the target metric.
 
 | Model | Best CV ROC AUC | Validation ROC AUC | Train Time (s) | Best Params |
 |--------|----------------:|-------------------:|---------------:|-------------:|
-| Random Forest | 0.8453 | 0.8308 | 9.9 | {'max_depth': 10, 'min_samples_leaf': 2, 'min_samples_split': 2, 'n_estimators': 100} |
-| XGBoost | 0.8492 | 0.8359 | 6.28 | {'colsample_bytree': 0.8, 'gamma': 0.1, 'learning_rate': 0.05, 'max_depth': 3, 'n_estimators': 100, 'subsample': 0.8} |
+| Random Forest | 0.8453 | 0.8308 | 11.78 | {'max_depth': 10, 'min_samples_leaf': 2, 'min_samples_split': 2, 'n_estimators': 100} |
+| XGBoost | 0.8492 | 0.8359 | 7.57 | {'colsample_bytree': 0.8, 'gamma': 0.1, 'learning_rate': 0.05, 'max_depth': 3, 'n_estimators': 100, 'subsample': 0.8} |
 
 ---
 

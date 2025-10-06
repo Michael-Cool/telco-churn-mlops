@@ -1,6 +1,6 @@
 # Baseline Models Report
 
-**Datum/Zeit:** 2025-10-06 10:01:46  
+**Datum/Zeit:** 2025-10-06 10:34:09  
 **random_state:** 42  
 
 ---
@@ -10,8 +10,8 @@ Both baseline models were trained with default parameters using the processed Te
 
 | Model | Accuracy | F1 | ROC AUC | Train Time (s) |
 |--------|----------:|---:|---:|---------------:|
-Random Forest 0.779 0.517 0.814 0.11
-      XGBoost 0.770 0.532 0.808 0.12
+Random Forest 0.779 0.517 0.814 0.12
+      XGBoost 0.770 0.532 0.808 0.11
 
 ---
 
