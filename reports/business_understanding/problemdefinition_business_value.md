@@ -9,8 +9,18 @@ Die **Bindung bestehender Kunden** ist deutlich kosteneffizienter als die Neukun
 Reichheld und Sasser (1990) belegen, dass bereits eine Reduktion der Abwanderungsrate um 5 % die Gewinne eines Unternehmens um bis zu 100 % steigern kann, da Bestandskunden im Zeitverlauf profitabler werden. Min et al. zeigen zudem, dass Akquisitionskosten im Telekommunikationssektor im Durchschnitt etwa dreimal so hoch sind wie Retentionskosten und im Wettbewerbsumfeld sogar das Vierfache erreichen können (Min, Zhang, Kim & Srivastava, 2016).
 Eine frühzeitige Identifikation von abwanderungsgefährdeten Kunden bedeutet, dass gezielte Retention-Maßnahmen eingeleitet werden können, bevor der Kunde endgültig kündigt.  
 
-Die Herausforderung besteht darin, aus **komplexen Vertrags-, Nutzungs- und demografischen Daten** Muster zu erkennen, die auf ein erhöhtes Kündigungsrisiko hindeuten.  
-Bisherige Arbeiten zu Churn Prediction im Machine Learning adressieren entweder die Modellgüte (Boozary et al., 2025) oder die technische Infrastruktur (Woźniak et al., 2025; Chikkala et al., 2025), jedoch fehlt ein praxisnaher, übertragbarer Ansatz speziell für den **Telco-Sektor in Kombination mit einem AWS-MLOps-Stack**.
+Die Herausforderung besteht darin, aus **Vertrags-, Nutzungs- und demografischen Daten** Muster zu erkennen, die auf ein erhöhtes Kündigungsrisiko hindeuten.  
+Ziel dieser ARbeit ist ein Ansatz speziell für den **Telco-Sektor in Kombination mit einem AWS-MLOps-Stack**.
+
+### 1.1 Ursachen der Kundenabwanderung im Telco-Sektor
+
+Talaat und Aljadani (2025) identifizieren mehrere zentrale Ursachen für Kundenabwanderung in der Telekommunikationsbranche.  
+Eine häufige Ursache ist **mangelnde Servicequalität**, insbesondere in Form von **Verbindungsabbrüchen und Netzstörungen**, die die Kundenzufriedenheit erheblich mindern.  
+Ebenso wirken sich **unzureichend gelöste Beschwerden** negativ auf die Kundenbindung aus, da sie das Vertrauen in den Anbieter schwächen.  
+Darüber hinaus zeigen sich **Tarif- und Preisaspekte** als treibende Faktoren: Kunden mit **kurzfristigen, nicht vertraglich gebundenen Plänen** wechseln signifikant häufiger den Anbieter als Vertragskunden mit längerer Laufzeit oder Loyalitätsprogrammen.  
+Weitere Ursachen liegen in **persönlichen Lebensumständen** (z. B. Umzug) sowie **bewussten Wechselentscheidungen** aufgrund attraktiverer Angebote der Konkurrenz.  
+Diese Befunde verdeutlichen, dass Kundenabwanderung nicht nur technisch, sondern auch **verhaltens- und profitabilitätsgetrieben** ist.  
+Sie bilden die theoretische Grundlage für das Verständnis der Kundenabwanderung im Telco-Sektor und tragen dazu bei, dass die ML-Anwendung branchenspezifische Muster und Einflussfaktoren realitätsnah abbildet, indem alle im Datensatz enthaltenen Merkmale umfassend analysiert und in die Modellierung einbezogen werden.
 
 ---
 
@@ -49,3 +59,5 @@ Damit schließt dieses Projekt eine Lücke zwischen **rein akademischen Modellve
 Reichheld, F. F., & Sasser, W. E. (1990). *Zero defections: Quality comes to services*. *Harvard Business Review, 68*(5), 105–111. Retrieved October 3, 2025, from https://hbr.org/1990/09/zero-defections-quality-comes-to-services
 
 Min, S., Zhang, X., Kim, N., & Srivastava, R. K. (2016). Customer acquisition and retention spending: An analytical model and empirical investigation in wireless telecommunications markets. Journal of Marketing Research, 53(5), 728–744. https://doi.org/10.1509/jmr.14.0170
+
+Talaat, F. M., & Aljadani, A. (2025). *AI-driven churn prediction in subscription services: Addressing economic metrics, data transparency, and customer interdependence.* *Neural Computing and Applications, 37*, 8651–8676. https://doi.org/10.1007/s00521-025-11027-6
