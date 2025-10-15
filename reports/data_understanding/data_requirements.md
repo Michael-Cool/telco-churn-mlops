@@ -58,7 +58,34 @@ Der Split erfolgt mit **festem Random Seed**, um Reproduzierbarkeit zu gewährle
 
 ---
 
-## 6. Fazit
+## 6. Plausibilitätsregeln und Wertebereiche
+
+Zur Sicherstellung der Datenqualität wurden für den IBM Telco Customer Churn Datensatz Plausibilitätsregeln und Wertebereiche definiert.  
+Diese Regeln dienen dazu, unplausible oder fehlerhafte Werte frühzeitig zu erkennen und auszuschließen.  
+Sie basieren auf den in der EDA gewonnenen Erkenntnissen sowie branchenspezifischen Annahmen aus der Telekommunikation.
+
+| Variable | Typ | Gültige Werte / Bereich | Begründung |
+|-----------|-----|-------------------------|-------------|
+| `MonthlyCharges` | numerisch | > 0 und ≤ 120 | Negative oder unrealistisch hohe Gebühren ausgeschlossen |
+| `TotalCharges` | numerisch | ≥ 0 | Negative Gesamtkosten sind nicht möglich |
+| `tenure` | numerisch | 0–72 | Maximale Vertragslaufzeit beträgt 72 Monate (6 Jahre) |
+| `Contract` | kategorial | {Month-to-Month, One year, Two year} | Gültige Vertragsarten laut Datendefinition |
+| `PaymentMethod` | kategorial | {Electronic check, Mailed check, Bank transfer (automatic), Credit card (automatic)} | Mögliche Zahlungsarten gemäß Originaldaten |
+| `InternetService` | kategorial | {DSL, Fiber optic, No} | Erlaubte Arten von Internetdiensten |
+| `Churn` | binär | {Yes, No} | Zielvariable (Kunde kündigt / bleibt) |
+| `SeniorCitizen` | binär | {0, 1} | 1 = Senior, 0 = kein Senior |
+| `gender` | kategorial | {Male, Female} | laut Originaldaten |
+| `Dependents` | kategorial | {Yes, No} | Abhängige Personen vorhanden oder nicht |
+| `Partner` | kategorial | {Yes, No} | Partnerstatus des Kunden |
+| `PaperlessBilling` | kategorial | {Yes, No} | Nutzung papierloser Abrechnung |
+
+**Hinweis:**  
+Diese Regeln wurden im Rahmen der Datenbereinigung überprüft (vgl. `reports/data_preparation/data_cleaning_report.md`).  
+Alle Variablen erfüllten die definierten Bedingungen; es waren keine manuellen Korrekturen erforderlich.
+
+---
+
+## 7. Fazit
 - Der IBM Telco Datensatz bietet ausreichende Variablenvielfalt für eine robuste Churn-Prediction.  
 - Transformationen (Encoding, Skalierung, Bereinigung) stellen sicher, dass die Daten in ML-Modelle (z. B. XGBoost, Random Forest) integriert werden können.  
 - Durch SMOTE und sauberen Datensplit wird die Basis für faire und reproduzierbare Modellvergleiche gelegt.  
