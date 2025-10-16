@@ -1,0 +1,15 @@
+artifact_uri: file:///Users/michaelnatterer/telco-churn-eda/mlruns/319606334446587858/502a9e5b1f0942c58bce1b2166d5449f/artifacts
+end_time: 1760606517181
+entry_point_name: ''
+experiment_id: '319606334446587858'
+lifecycle_stage: active
+run_id: 502a9e5b1f0942c58bce1b2166d5449f
+run_name: rf_benchmark
+run_uuid: 502a9e5b1f0942c58bce1b2166d5449f
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1760606515050
+status: 3
+tags: []
+user_id: michaelnatterer

@@ -1,0 +1,14 @@
+aliases: []
+creation_timestamp: 1760605726398
+current_stage: None
+description: null
+last_updated_timestamp: 1760605726398
+name: telco-churn-xgboost
+run_id: cd92128f478b41fea5a5e87d5815dfef
+run_link: null
+source: file:///Users/michaelnatterer/telco-churn-eda/mlruns/319606334446587858/cd92128f478b41fea5a5e87d5815dfef/artifacts/model
+status: READY
+status_message: null
+storage_location: file:///Users/michaelnatterer/telco-churn-eda/mlruns/319606334446587858/cd92128f478b41fea5a5e87d5815dfef/artifacts/model
+user_id: null
+version: 2
