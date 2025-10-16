@@ -204,4 +204,3 @@ def main():
 if __name__ == "__main__":
     np.random.seed(RANDOM_STATE)
     main()
-    
