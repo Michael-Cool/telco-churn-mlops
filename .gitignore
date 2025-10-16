@@ -21,3 +21,13 @@ __pycache__/
 .ipynb_checkpoints/
 .DS_Store
 .env
+mlruns/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.log
+.ipynb_checkpoints/
+.DS_Store
+models/*.pkl
