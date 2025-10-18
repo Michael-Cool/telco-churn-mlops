@@ -1,15 +1,8 @@
-# src/train_and_serialize.py
-# Reproducible end-to-end training + serialization with MLflow tracking & registry
-# Final model: XGBoost; RandomForest logged as benchmark.
-
 import json
 import pickle
-import os
 from pathlib import Path
-
 import numpy as np
 import pandas as pd
-
 from sklearn.model_selection import GridSearchCV
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.metrics import (
@@ -23,19 +16,20 @@ from sklearn.metrics import (
 )
 from sklearn.ensemble import RandomForestClassifier
 from imblearn.over_sampling import SMOTE
+from xgboost import XGBClassifier
 import mlflow
 import mlflow.sklearn
 import mlflow.xgboost
-from xgboost import XGBClassifier
 
 # ---- Konfiguration
 RANDOM_STATE = 42
 EXPERIMENT_NAME = "telco-churn"
-REGISTERED_MODEL_NAME = "telco-churn-xgboost"
+REGISTERED_MODEL_NAME_XGB = "telco-churn-xgboost"
+REGISTERED_MODEL_NAME_RF = "telco-churn-randomforest"
 
 # ---- Projektpfade
 ROOT = Path(__file__).resolve().parents[1]
-DATA_DIR = ROOT / "data" / "encoded"  # train_encoded.csv / val_encoded.csv / test_encoded.csv
+DATA_DIR = ROOT / "data" / "encoded"
 MODELS_DIR = ROOT / "models"
 MODELS_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -43,7 +37,7 @@ FINAL_MODEL_PKL = MODELS_DIR / "final_model.pkl"
 SCALER_PKL = MODELS_DIR / "scaler.pkl"
 FEATURES_JSON = MODELS_DIR / "model_input_features.json"
 
-# ---- 🧩 Lokales MLflow Tracking
+# ---- MLflow Tracking
 mlflow.set_tracking_uri("file://" + str(ROOT / "mlruns"))
 mlflow.set_experiment(EXPERIMENT_NAME)
 
@@ -89,22 +83,22 @@ def eval_metrics(y_true, y_pred, y_proba):
 
 
 def log_metrics_table(prefix, metrics):
+    active_run = mlflow.active_run()
+    if active_run is None:
+        print("⚠️ No active MLflow run – metrics not logged!")
+        return
     for k, v in metrics.items():
         mlflow.log_metric(f"{prefix}_{k}", v)
 
 
+# ---- Hauptfunktion
 def main():
-    # --- Load and prepare data
     X_train, y_train, X_val, y_val, X_test, y_test, X_tr_cv, y_tr_cv = load_splits()
     feature_names = X_train.columns.tolist()
 
-    # --- Scale
     scaler, X_train_s, X_val_s, X_test_s = scale_fit_transform(X_train, X_val, X_test)
-
-    # --- Balance (SMOTE)
     X_train_bal, y_train_bal = smote_balance(X_train_s, y_train)
 
-    # --- Parent run
     with mlflow.start_run(run_name="rf_benchmark_and_xgb_final", nested=False) as parent_run:
         mlflow.set_tags({
             "stage": "training",
@@ -133,7 +127,12 @@ def main():
                 "min_samples_split": rf.min_samples_split,
             })
             log_metrics_table("rf", rf_metrics)
-            mlflow.sklearn.log_model(rf, "rf_model")
+
+            mlflow.sklearn.log_model(
+                sk_model=rf,
+                artifact_path="rf_model",
+                registered_model_name=REGISTERED_MODEL_NAME_RF,
+            )
 
         # --- XGBoost final (GridSearch + Registry)
         with mlflow.start_run(run_name="xgb_final", nested=True):
@@ -185,8 +184,8 @@ def main():
 
             model_info = mlflow.xgboost.log_model(
                 xgb_model=best_xgb,
-                artifact_path="model",
-                registered_model_name=REGISTERED_MODEL_NAME,
+                artifact_path="xgb_model",
+                registered_model_name=REGISTERED_MODEL_NAME_XGB,
             )
 
             with open(FINAL_MODEL_PKL, "wb") as f:
@@ -194,6 +193,25 @@ def main():
 
             print("✅ Saved local:", FINAL_MODEL_PKL)
             print("✅ Logged to MLflow:", model_info.model_uri)
+
+        # ---- Vergleich der Modellvorhersagen
+        same_mask = (rf_pred == xgb_pred)
+        same_ratio = np.mean(same_mask)
+        proba_diff = np.abs(rf_proba - xgb_proba)
+        mean_diff = float(np.mean(proba_diff))
+
+        print(f"\n🔍 Vergleich der Modelle:")
+        print(f"   → Gleiche 0/1-Vorhersagen: {same_ratio*100:.2f}%")
+        print(f"   → Mittlere Abweichung der Wahrscheinlichkeiten: {mean_diff:.4f}")
+
+        # Log in MLflow
+        mlflow.log_metric("same_predictions_ratio", same_ratio)
+        mlflow.log_metric("mean_proba_difference", mean_diff)
+
+        if np.all(same_mask):
+            print("⚠️ Beide Modelle treffen EXAKT dieselben 0/1-Vorhersagen.")
+        else:
+            print("✅ Modelle unterscheiden sich in einigen Fällen.")
 
         mlflow.set_tags({"final_model": "XGBoost", "benchmark": "RandomForest"})
 
