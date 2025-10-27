@@ -28,7 +28,7 @@ REGISTERED_MODEL_NAME_XGB = "telco-churn-xgboost"
 REGISTERED_MODEL_NAME_RF = "telco-churn-randomforest"
 
 # ---- Projektpfade
-ROOT = Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[2]
 DATA_DIR = ROOT / "data" / "encoded"
 MODELS_DIR = ROOT / "models"
 MODELS_DIR.mkdir(parents=True, exist_ok=True)
