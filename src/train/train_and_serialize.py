@@ -34,6 +34,7 @@ MODELS_DIR = ROOT / "models"
 MODELS_DIR.mkdir(parents=True, exist_ok=True)
 
 FINAL_MODEL_PKL = MODELS_DIR / "final_model.pkl"
+FINAL_MODEL_JSON = MODELS_DIR / "final_model.json"  # 🆕 JSON-Version
 SCALER_PKL = MODELS_DIR / "scaler.pkl"
 FEATURES_JSON = MODELS_DIR / "model_input_features.json"
 
@@ -191,8 +192,24 @@ def main():
             with open(FINAL_MODEL_PKL, "wb") as f:
                 pickle.dump(best_xgb, f)
 
+            # === JSON-Export (robuste, versionssichere Variante) ===
+            booster = best_xgb.get_booster()
+            booster.save_model(FINAL_MODEL_JSON)
+            mlflow.log_artifact(FINAL_MODEL_JSON.as_posix())
+            print("✅ Zusätzlich als JSON gespeichert:", FINAL_MODEL_JSON)
+
             print("✅ Saved local:", FINAL_MODEL_PKL)
             print("✅ Logged to MLflow:", model_info.model_uri)
+            
+            # === Automatische Bereitstellung für Deployment ===
+            DEPLOYMENT_PATH = ROOT.parents[0] / "telco-churn-deployment" / "src" / "models" / "xgboost_model.json"
+            try:
+                DEPLOYMENT_PATH.parent.mkdir(parents=True, exist_ok=True)
+                import shutil
+                shutil.copy2(FINAL_MODEL_JSON, DEPLOYMENT_PATH)
+                print(f"✅ Modell automatisch nach Deployment kopiert: {DEPLOYMENT_PATH}")
+            except Exception as e:
+                print(f"⚠️ Konnte Modell nicht kopieren: {e}")
 
         # ---- Vergleich der Modellvorhersagen
         same_mask = (rf_pred == xgb_pred)
@@ -203,6 +220,23 @@ def main():
         print(f"\n🔍 Vergleich der Modelle:")
         print(f"   → Gleiche 0/1-Vorhersagen: {same_ratio*100:.2f}%")
         print(f"   → Mittlere Abweichung der Wahrscheinlichkeiten: {mean_diff:.4f}")
+        
+        # === Optimale Decision Threshold berechnen ===
+        thresholds = np.linspace(0.1, 0.9, 81)
+        best_f1, best_thresh = 0, 0.5
+
+        for t in thresholds:
+            y_pred_tmp = (xgb_proba >= t).astype(int)
+            f1_tmp = f1_score(y_test, y_pred_tmp)
+            if f1_tmp > best_f1:
+                best_f1, best_thresh = f1_tmp, t
+
+        print(f"🎯 Optimaler Threshold: {best_thresh:.2f} | F1={best_f1:.3f}")
+
+        # Threshold speichern
+        THRESHOLD_FILE = MODELS_DIR / "threshold.json"
+        THRESHOLD_FILE.write_text(json.dumps({"threshold": best_thresh}))
+        mlflow.log_artifact(THRESHOLD_FILE.as_posix())
 
         # Log in MLflow
         mlflow.log_metric("same_predictions_ratio", same_ratio)
@@ -214,7 +248,7 @@ def main():
             print("✅ Modelle unterscheiden sich in einigen Fällen.")
 
         mlflow.set_tags({"final_model": "XGBoost", "benchmark": "RandomForest"})
-
+        
     FEATURES_JSON.write_text(json.dumps(feature_names, indent=2))
     print("✅ Features saved:", FEATURES_JSON)
 
